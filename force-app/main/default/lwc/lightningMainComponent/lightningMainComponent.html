@@ -1,0 +1,75 @@
+<template>
+  <lightning-card>
+    <div class="slds-m-around_medium">
+
+  <div class="slds-m-bottom_small">
+    <lightning-input type="text"
+       value={sVal}
+       label="Contact Name"
+       onchange={updateSearchKey}
+       >
+    </lightning-input>
+ </div>
+
+ <lightning-button label="Search"
+    onclick={handleSearch}
+    variant="brand">
+  </lightning-button>
+  <lightning-button label="New Contact"
+    variant="brand"
+    onclick={openmodal}
+  ></lightning-button>
+  <lightning-datatable
+    key-field="recordId"
+    data={contacts}
+    columns={columns}
+    hide-checkbox-column
+    default-sort-direction={defaultSortDirection}
+    sorted-direction={sortDirection}
+    sorted-by={sortedBy}
+    onsort={onHandleSort}
+    onrowaction={handleRowAction}>
+  </lightning-datatable>
+
+</div>
+
+<!--<div class="slds-m-around_medium">
+  <p class="slds-m-vertical_medium content">
+           Displaying {startingRecord} to {endingRecord} of {totalRecountCount} records.
+           Page {page} of {totalPage}. </p>
+  <c-paginator onprevious={previousHandler} onnext={nextHandler}></c-paginator>
+</div>-->
+</lightning-card>
+
+  <template if:true={openModalVar}>
+    <div class="demo-only" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create New Contact</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <center>
+                    <lightning-record-edit-form object-api-name={contactObject} onsuccess={handleContactCreated}>
+                      <lightning-messages></lightning-messages>
+                              <lightning-input-field field-name={firstNameField}></lightning-input-field>
+                              <lightning-input-field field-name={lastNameField}></lightning-input-field>
+                              <lightning-input-field field-name={emailField} required></lightning-input-field>
+                              <lightning-input-field field-name={contactLevelField}></lightning-input-field>
+                              <lightning-input-field field-name={accountField} required></lightning-input-field>
+                      <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                      <lightning-button type="submit" variant="brand" label="Save"></lightning-button>
+                  </lightning-record-edit-form>
+                    </center>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    </template>
+</template>
